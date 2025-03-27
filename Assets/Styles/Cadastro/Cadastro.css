@@ -1,0 +1,238 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #E0E1DD;
+  color: #0D1B2A;
+  line-height: 1.6;
+}
+
+.cabecario_header {
+  background-color: #0D1B2A;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.cabecario_header .container_navegacao {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.cabecario_header .logo {
+  color: #FFFFFF;
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-decoration: none;
+}
+.cabecario_header .navegacao {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+.cabecario_header .navegacao a {
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s;
+  background-color: #FF6B35;
+  color: #FFFFFF;
+}
+.cabecario_header .navegacao a:hover {
+  background-color: #FFFFFF;
+  color: #0D1B2A;
+}
+.cabecario_header .btn {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+.cabecario_header .btn_branco {
+  background-color: #FFFFFF;
+  color: #0D1B2A;
+}
+.cabecario_header .btn_branco:hover {
+  background-color: #FF6B35;
+  color: #FFFFFF;
+}
+
+main {
+  flex: 1;
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-container {
+  background-color: #FFFFFF;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  width: 100%;
+  max-width: 600px;
+  margin: 2rem auto;
+}
+.form-container h2 {
+  color: #0D1B2A;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+.form-container form {
+  display: flex;
+  flex-direction: column;
+}
+.form-container .etapa {
+  animation: fadeIn 0.5s ease-in-out;
+}
+.form-container .etapa.active {
+  display: block;
+}
+.form-container label {
+  display: block;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #415A77;
+}
+.form-container div.div-btn {
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.form-container input[type=text],
+.form-container input[type=email],
+.form-container input[type=date],
+.form-container input[type=month],
+.form-container input[type=password] {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #E0E1DD;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border 0.3s;
+}
+.form-container input[type=text]:focus,
+.form-container input[type=email]:focus,
+.form-container input[type=date]:focus,
+.form-container input[type=month]:focus,
+.form-container input[type=password]:focus {
+  border-color: #FF6B35;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(255, 107, 53, 0.2);
+}
+.form-container .cep-container {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+.form-container .cep-container button {
+  background-color: #FF6B35;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.form-container .cep-container button:hover {
+  background-color: #ff4602;
+}
+.form-container input[type=checkbox] {
+  margin-left: 1rem;
+  margin-right: 0.5rem;
+}
+.form-container button[type=button],
+.form-container button[type=submit] {
+  padding: 0.8rem 1.5rem;
+  background-color: #FF6B35;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  align-self: flex-end;
+}
+.form-container button[type=button]:hover,
+.form-container button[type=submit]:hover {
+  background-color: #ff4602;
+}
+.form-container button[type=button][type=button]:first-of-type,
+.form-container button[type=submit][type=button]:first-of-type {
+  background-color: #415A77;
+  margin-right: 1rem;
+}
+.form-container button[type=button][type=button]:first-of-type:hover,
+.form-container button[type=submit][type=button]:first-of-type:hover {
+  background-color: #2f4156;
+}
+.form-container #bandeiraTexto {
+  margin-left: 1rem;
+  font-weight: bold;
+  color: #415A77;
+}
+
+.rodape {
+  background-color: #0D1B2A;
+  padding: 2rem;
+  text-align: center;
+  color: #FFFFFF;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+}
+.rodape a {
+  color: #FF6B35;
+  text-decoration: none;
+  margin: 0 0.5rem;
+  transition: color 0.3s;
+}
+.rodape a:hover {
+  color: #E0E1DD;
+  text-decoration: underline;
+}
+.rodape p {
+  margin: 0.5rem 0;
+}
+.rodape strong {
+  color: #FF6B35;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (max-width: 768px) {
+  .cabecario_header {
+    padding: 1rem;
+  }
+  .cabecario_header .container_navegacao {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .form-container {
+    padding: 1.5rem;
+  }
+}/*# sourceMappingURL=Cadastro.css.map */

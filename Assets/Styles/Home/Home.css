@@ -1,0 +1,485 @@
+/* ! Variáveis de cores */
+:root {
+  --color-cinza: #E0E1DD;
+  --color-laranja: #FF6B35;
+  --color-AZLCLARO: #415A77;
+  --color-AZLESCURO: #0D1B2A;
+}
+
+/* ! Reset e base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto Flex', sans-serif;
+}
+
+body {
+  background-color: #f0f0f0;
+  color: var(--color-AZLESCURO);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ! Overlay de fundo do popup */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.651);
+  display: none;
+  z-index: 10;
+  backdrop-filter: blur(1px);
+}
+
+/* ! Header */
+.cabecario_header {
+  background-color: var(--color-AZLESCURO);
+  padding: 20px 0;
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
+}
+
+.cabecario_header .container_nagavegacao {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cabecario_header .container_nagavegacao {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cabecario_header .container_nagavegacao .logo {
+  font-size: 30px;
+  color: white;
+  font-weight: 700;
+  text-decoration: none;
+ 
+}
+
+.cabecario_header .container_nagavegacao .logo span{
+  color: var(--color-laranja);
+  font-weight: 700;
+}
+
+.cabecario_header .container_nagavegacao .navegacao {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  color: white;
+  
+}
+
+
+
+.offcanvas-body .navegacao{
+    display: flex;
+    flex-direction: column;
+}
+
+.offcanvas-body .navegacao .container_buttons{
+    display: flex;
+    padding: 20px 20px;
+    gap: 20px;
+}
+
+.offcanvas-body .navegacao .container_buttons .btn_laranja2{
+    border-color: var(--color-laranja);
+    color: var(--color-laranja);
+}
+
+.offcanvas-body .navegacao li{
+    width: 100%;
+    height: 70px;
+    list-style: none;
+
+    cursor: pointer;
+    
+}
+
+.offcanvas-body .navegacao li:hover{
+   background-color: #d8d8d8;
+    
+}
+
+
+.offcanvas-body .navegacao li a{
+    text-decoration: none;
+    color: #000000;
+    padding-left: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    height: 100%;
+    width: 100%;
+}
+
+
+.cabecario_header .container_nagavegacao .navegacao a {
+  color: white;
+  border-bottom: 2px solid transparent;
+  padding: 8px 0px;
+  transition: 0.3s ease;
+  text-decoration: none;
+}
+
+.cabecario_header .container_nagavegacao .navegacao a:hover {
+  color: var(--color-laranja);
+  border-color: var(--color-laranja)
+}
+
+
+/* ! Popups */
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border-radius: 10px;
+  display: none;
+  z-index: 20;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  max-width: 440px;
+  animation: aparecerPop 0.3s ease;
+}
+
+.popup .popup-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  position: relative;
+  padding: 60px 40px 40px 40px; 
+}
+
+.popup .popup-content .container_buttons{
+  display: flex;
+  gap: 15px;
+  width: 100%;
+}
+
+.popup .popup-content .container_buttons button{
+
+  width: 100%;
+}
+
+.popup .popup-content .fechar{
+ position: absolute;
+ top: 10px;
+ right: 10px;
+ font-weight: 600;
+}
+
+.popup .popup-content h2 {
+  color: var(--color-AZLESCURO);
+  font-size: 28px;
+}
+
+.popup .popup-content input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.popup .popup-content button {
+  padding: 10px;
+  background: var(--color-laranja);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.popup .popup-content button:hover {
+  background: #e55a2f; /* Simulação do darken */
+  color: white;
+}
+
+
+
+.popup .popup-content .fechar {
+  align-self: flex-end;
+  background: none;
+  color: red;
+  font-size: 1.2rem;
+  border: none;
+  cursor: pointer;
+}
+
+/* ! Sessão principal */
+.home{
+  padding-top: 85px;
+}
+
+.home_conteudo {
+  background-image: url('../../Imgs/banner1.png');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: white;
+  height: 530px;
+}
+
+.home_conteudo .home_content {
+  max-width: 500px;
+  text-align: left;
+  padding-top: 80px;
+}
+
+.home_conteudo .home_content h1 {
+  font-size: 48px;
+  margin-bottom: 20px;
+  font-weight: 200;
+}
+
+.home_conteudo .home_content h1 span{
+  font-weight: 700;
+}
+
+.home_conteudo .home_content p {
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 200;
+  margin-bottom: 30px;
+  color: #f0f0f0;
+}
+
+.home_conteudo .home_content .container_buttons {
+  display: flex;
+  max-width: 400px;
+  width: 98%;
+  gap: 20px;
+}
+.home_conteudo .home_content .container_buttons a{
+width: 100%;
+}
+
+
+/* ! Cards */
+
+.container_cards .card {
+ background-color: #e9e9e9;
+ border: none;
+  color: #000000;
+  border-radius: 15px;
+  text-align: center;
+  transition: 0.3s;
+  cursor: pointer;
+  padding-top: 14px;
+}
+
+.container_cards .card .card_content{
+padding: 0px 20px 20px 20px;
+}
+
+.container_cards .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 8px 12px 2px rgba(0, 0, 0, 0.26);
+}
+
+.container_cards .card svg {
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+.container_cards .card h2 {
+  margin-bottom: 10px;
+  font-weight: 700;
+  color: #2e2e2e;
+  
+}
+
+.container_cards .card p {
+  font-size: 0.95rem;
+  min-height: 70px;
+}
+
+
+
+/* ! Rodapé */
+.rodape {
+  background-color: #0D1B2A;
+  padding: 2rem;
+  text-align: center;
+  color: #FFFFFF;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+}
+.rodape a {
+  color: #FF6B35;
+  text-decoration: none;
+  margin: 0 0.5rem;
+  transition: color 0.3s;
+}
+.rodape a:hover {
+  color: #E0E1DD;
+  text-decoration: underline;
+}
+.rodape p {
+  margin: 0.5rem 0;
+}
+.rodape strong {
+  color: #FF6B35;
+}
+
+/* ! Interface padrão */
+.interface {
+  max-width: 1080px;
+  margin: 0 auto;
+  width: 98%;
+}
+
+.interface2 {
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 98%;
+}
+
+
+@media(max-width: 768px) {
+  .home_conteudo {
+    background-image: url('../../Imgs/bannerMobille.png');
+    background-position: bottom;
+    height: 740px;
+    padding: 20px 0px;
+  }
+
+  .home_conteudo .home_content {
+    max-width: 500px;
+    width: 98%;
+    text-align: center;
+    margin: 0 auto;
+  }
+
+  
+.home_conteudo .home_content .container_buttons {
+  margin: 0 auto;
+}
+
+.home_conteudo .home_content p {
+  font-size: 17px;
+
+}
+
+}
+
+/* sociais */
+/* From Uiverse.io by akshayjalluri6 */ 
+.container_social {
+  display: flex;
+  gap: 10px;
+  height: 100px;
+  padding: 30px 0px 0px 0px;
+}
+
+.Btn {
+  border: none;
+  border-radius: 50%;
+  width: 55px;
+  height: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+ 
+}
+
+.instagram {
+  background: #f09433;
+  background: -moz-linear-gradient(
+    45deg,
+    #f09433 0%,
+    #e6683c 25%,
+    #dc2743 50%,
+    #cc2366 75%,
+    #bc1888 100%
+  );
+  background: -webkit-linear-gradient(
+    45deg,
+    #f09433 0%,
+    #e6683c 25%,
+    #dc2743 50%,
+    #cc2366 75%,
+    #bc1888 100%
+  );
+  background: linear-gradient(
+    45deg,
+    #f09433 0%,
+    #e6683c 25%,
+    #dc2743 50%,
+    #cc2366 75%,
+    #bc1888 100%
+  );
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f09433', endColorstr='#bc1888',GradientType=1 );
+}
+
+.youtube {
+  background-color: #ff0000;
+}
+
+.twitter {
+  background-color: #1da1f2;
+}
+
+.Btn:hover {
+  width: 110px;
+  transition-duration: 0.4s;
+  border-radius: 30px;
+}
+
+.Btn:hover .text {
+  opacity: 1;
+  transition-duration: 0.4s;
+}
+
+.Btn:hover .svgIcon {
+  opacity: 0;
+  transition-duration: 0.3s;
+}
+
+.text {
+  position: absolute;
+  color: rgb(255, 255, 255);
+  width: 120px;
+  font-weight: 600;
+  opacity: 0;
+  transition-duration: 0.4s;
+}
+
+.svgIcon {
+  transition-duration: 0.3s;
+}
+
+.svgIcon path {
+  fill: white;
+}
+
+
+
+
+@keyframes aparecerPop {
+  0%{
+    opacity: 0;
+    margin-left: -50px;
+  }
+  
+  100%{
+    opacity: 1;
+    margin-left: 0px;
+   
+  }
+}

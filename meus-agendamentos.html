@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Agendamentos - AutoFix</title>
+    <link rel="stylesheet" href="Assets/Styles/Meus_Agendamentos/Meus_Agendamentos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header class="cabecario_header">
+        <div class="container_nagavegacao interface">
+            <a href="index.html" class="logo"> 
+                <i class="fas fa-car-alt"></i> AUTOFIX 
+            </a>
+            <nav class="navegacao">
+                <a href="index.html"><i class="fas fa-home"></i> Página Inicial</a>
+                <a href="agendar.html"><i class="fas fa-calendar-plus"></i> Agendar Serviço</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="form-container interface">
+            <h1><i class="fas fa-calendar-check"></i> Meus Agendamentos</h1>
+            <p>Visualize e gerencie seus agendamentos de serviços</p>
+            
+            <div class="filtros-container">
+                <div class="filtros-header">
+                    <h2><i class="fas fa-filter"></i> Filtros</h2>
+                    <button class="btn-limpar" onclick="limparFiltros()">
+                        <i class="fas fa-times"></i> Limpar filtros
+                    </button>
+                </div>
+                
+                <div class="filtros-body">
+                    <div class="form-group filtro-grupo">
+                        <label for="filtro-status"><i class="fas fa-info-circle"></i> Status</label>
+                        <select id="filtro-status" class="form-control" onchange="filtrarAgendamentos()">
+                            <option value="todos">Todos</option>
+                            <option value="Confirmado">Confirmado</option>
+                            <option value="Pendente">Pendente</option>
+                            <option value="Cancelado">Cancelado</option>
+                            <option value="Finalizado">Finalizado</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group filtro-grupo">
+                        <label for="filtro-data"><i class="far fa-calendar-alt"></i> Período</label>
+                        <select id="filtro-data" class="form-control" onchange="filtrarAgendamentos()">
+                            <option value="todos">Todos</option>
+                            <option value="hoje">Hoje</option>
+                            <option value="semana">Esta semana</option>
+                            <option value="mes">Este mês</option>
+                            <option value="futuro">Futuros</option>
+                            <option value="passado">Passados</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group filtro-grupo">
+                        <label for="filtro-veiculo"><i class="fas fa-car"></i> Veículo</label>
+                        <select id="filtro-veiculo" class="form-control" onchange="filtrarAgendamentos()">
+                            <option value="todos">Todos</option>
+                            <!-- Opções serão preenchidas dinamicamente -->
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="agendamentos-container" id="agendamentos-container">
+                <!-- Agendamentos serão renderizados dinamicamente aqui -->
+            </div>
+            
+            <!-- Mensagem quando não há agendamentos -->
+            <div class="sem-agendamentos hidden" id="sem-agendamentos">
+                <i class="far fa-calendar-times"></i>
+                <h3>Nenhum agendamento encontrado</h3>
+                <p>Você ainda não possui agendamentos ou não há agendamentos com os filtros selecionados.</p>
+                <a href="agendar-servico.html" class="btn-avancar">
+                    <i class="fas fa-calendar-plus"></i> Agendar Serviço
+                </a>
+            </div>
+        </div>
+    </main>
+    
+    <footer class="rodape">
+        <div class="rodape-container interface">
+            <div class="rodape-links">
+                <a href="politicas.html"><i class="fas fa-shield-alt"></i> Política de Privacidade</a> 
+                <a href="termos.html"><i class="fas fa-file-contract"></i> Termos de Uso</a>
+                <a href="contato.html"><i class="fas fa-headset"></i> Fale Conosco</a>
+            </div>
+
+            <div class="rodape-lgpd">
+                <i class="fas fa-lock"></i>
+                <p>Estamos em conformidade com a <strong>Lei Geral de Proteção de Dados (LGPD)</strong>.</p>
+            </div>
+            
+            <div class="rodape-copyright">
+                <p>© 2025 <strong>AutoFix</strong> | Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+     <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-auth.js"></script>
+    <script src="Assets/js/firebase/firebase.js"></script>
+    <script src="Assets/js/firebase/checar_login.js"></script>
+
+    <script>
+        // Mapeamento de serviços para nomes e preços
+        const servicosInfo = {
+            "revisao": { nome: "Revisão Preventiva", preco: 299.90 },
+            "freios": { nome: "Troca de Freios", preco: 189.90 },
+            "bateria": { nome: "Troca de Bateria", preco: 249.90 },
+            "pneus": { nome: "Alinhamento e Balanceamento", preco: 159.90 },
+            "ar": { nome: "Manutenção de Ar Condicionado", preco: 179.90 },
+            "diagnostico": { nome: "Diagnóstico Eletrônico", preco: 129.90 }
+        }
+
+        // Mapeamento de marcas para nomes completos
+        const marcas = {
+            "chevrolet": "Chevrolet",
+            "fiat": "Fiat",
+            "ford": "Ford",
+            "honda": "Honda",
+            "hyundai": "Hyundai",
+            "toyota": "Toyota",
+            "volkswagen": "Volkswagen"
+        }
+
+        // Função para renderizar os agendamentos
+        function renderizarAgendamentos(agendamentos = user.agendamentos) {
+            const container = document.getElementById('agendamentos-container')
+            container.innerHTML = ''
+            
+            if (agendamentos.length === 0) {
+                document.getElementById('sem-agendamentos').classList.remove('hidden')
+                return
+            } else {
+                document.getElementById('sem-agendamentos').classList.add('hidden')
+            }
+            
+            // Ordena agendamentos por data (mais recente primeiro)
+            agendamentos.sort((a, b) => new Date(b.data) - new Date(a.data))
+            
+            agendamentos.forEach(agendamento => {
+                const dataObj = new Date(agendamento.data)
+                const dataFormatada = dataObj.toLocaleDateString('pt-BR')
+                
+                // Calcula o total
+                let total = 0
+                agendamento.servicos.forEach(servico => {
+                    total += servicosInfo[servico]?.preco || 0
+                })
+                
+                // Mapeia status para classes CSS
+                const statusClasses = {
+                    "confirmado": "status-confirmado",
+                    "pendente": "status-pendente",
+                    "cancelado": "status-cancelado",
+                    "finalizado": "status-finalizado"
+                }
+                
+                // Cria o card do agendamento
+                const card = document.createElement('div')
+                card.className = 'agendamento-card'
+                card.setAttribute('data-status', agendamento.status)
+                card.setAttribute('data-data', agendamento.data)
+                card.setAttribute('data-veiculo', agendamento.veiculo.placa)
+                
+                card.innerHTML = `
+                    <div class="agendamento-header">
+                        <h3>${servicosInfo[agendamento.servicos[0]]?.nome || 'Serviço'} 
+                            <span class="status-badge ${statusClasses[agendamento.status]}">${agendamento.status.charAt(0).toUpperCase() + agendamento.status.slice(1)}</span>
+                        </h3>
+                        <span class="agendamento-id">#${agendamento.id}</span>
+                    </div>
+                    
+                    <div class="agendamento-body">
+                        <div class="agendamento-info">
+                            <h4><i class="fas fa-calendar-day"></i> Data e Horário</h4>
+                            <p>${dataFormatada} às ${agendamento.horario}</p>
+                        </div>
+                        
+                        <div class="agendamento-info">
+                            <h4><i class="fas fa-car"></i> Veículo</h4>
+                            <p>${marcas[agendamento.veiculo.marca] || agendamento.veiculo.marca} ${agendamento.veiculo.modelo} ${agendamento.veiculo.ano} - ${agendamento.veiculo.placa}</p>
+                        </div>
+                        
+                        <div class="agendamento-info">
+                            <h4><i class="fas fa-map-marker-alt"></i> Local</h4>
+                            <p>${agendamento.local}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="agendamento-servicos">
+                        <h4><i class="fas fa-tools"></i> Serviços</h4>
+                        ${agendamento.servicos.map(servico => `
+                            <div class="servico-item">
+                                <span>${servicosInfo[servico]?.nome || servico}</span>
+                                <span>R$ ${(servicosInfo[servico]?.preco || 0).toFixed(2).replace('.', ',')}</span>
+                            </div>
+                        `).join('')}
+                        
+                        <div class="agendamento-total">
+                            Total: <span>R$ ${total.toFixed(2).replace('.', ',')}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="agendamento-acoes">
+                        <button class="btn-acao btn-cancelar" onclick="cancelarAgendamento('${agendamento.id}')" ${agendamento.status !== 'Pendente' && agendamento.status !== 'confirmado' ? 'disabled' : ''}>
+                            <i class="fas fa-times"></i> Cancelar
+                        </button>
+                    </div>
+                `
+                
+                container.appendChild(card)
+            })
+            
+            // Atualiza opções de veículos no filtro
+            atualizarFiltroVeiculos()
+        }
+        
+        // Atualiza as opções de veículos no filtro
+        function atualizarFiltroVeiculos() {
+            const select = document.getElementById('filtro-veiculo')
+            const veiculos = {}
+            
+            // Pega todos os veículos únicos dos agendamentos
+            user.agendamentos.forEach(agendamento => {
+                const veiculo = agendamento.veiculo
+                const key = `${veiculo.placa}|${veiculo.modelo}`
+                if (!veiculos[key]) {
+                    veiculos[key] = {
+                        placa: veiculo.placa,
+                        modelo: veiculo.modelo
+                    }
+                }
+            })
+            
+            // Limpa e adiciona as opções
+            select.innerHTML = '<option value="todos">Todos</option>'
+            
+            Object.values(veiculos).forEach(veiculo => {
+                const option = document.createElement('option')
+                option.value = veiculo.placa
+                option.textContent = `${veiculo.placa} - ${veiculo.modelo}`
+                select.appendChild(option)
+            })
+        }
+        
+        // Função para filtrar agendamentos
+        function filtrarAgendamentos() {
+            const filtroStatus = document.getElementById('filtro-status').value
+            const filtroData = document.getElementById('filtro-data').value
+            const filtroVeiculo = document.getElementById('filtro-veiculo').value
+            
+            const agendamentosFiltrados = user.agendamentos.filter(agendamento => {
+                // Filtro por status
+                if (filtroStatus !== 'todos' && agendamento.status !== filtroStatus) {
+                    return false
+                }
+                
+                // Filtro por veículo
+                if (filtroVeiculo !== 'todos' && agendamento.veiculo.placa !== filtroVeiculo) {
+                    return false
+                }
+                
+                // Filtro por data
+                if (filtroData !== 'todos') {
+                    const hoje = new Date()
+                    hoje.setHours(0, 0, 0, 0)
+                    const dataAgendamento = new Date(agendamento.data)
+                    
+                    switch(filtroData) {
+                        case 'hoje':
+                            return agendamento.data === hoje.toISOString().split('T')[0]
+                        case 'semana':
+                            const fimSemana = new Date(hoje)
+                            fimSemana.setDate(hoje.getDate() + (6 - hoje.getDay()))
+                            return dataAgendamento >= hoje && dataAgendamento <= fimSemana
+                        case 'mes':
+                            return dataAgendamento.getMonth() === hoje.getMonth() && 
+                                   dataAgendamento.getFullYear() === hoje.getFullYear()
+                        case 'futuro':
+                            return dataAgendamento >= hoje
+                        case 'passado':
+                            return dataAgendamento < hoje
+                    }
+                }
+                
+                return true
+            })
+            
+            renderizarAgendamentos(agendamentosFiltrados)
+        }
+        
+        function limparFiltros() {
+            document.getElementById('filtro-status').value = 'todos'
+            document.getElementById('filtro-data').value = 'todos'
+            document.getElementById('filtro-veiculo').value = 'todos'
+            renderizarAgendamentos()
+        }
+        
+        function cancelarAgendamento(id) {
+            // Aqui você implementaria a lógica para cancelar o agendamento
+            if (confirm(`Tem certeza que deseja cancelar o agendamento ${id}?`)) {
+                for (let i = 0; i < user.agendamentos.length; i++) {
+                    if(user.agendamentos[i].id === id) {
+                        user.agendamentos.splice(i, 1)
+                        db.collection('users').doc(user.id).update({
+                            agendamentos: user.agendamentos
+                        })
+                        renderizarAgendamentos()
+                        break
+                    }
+                }   
+            }
+        }
+        
+        function mostrarNotificacao(mensagem, tipo = 'sucesso') {
+            const notificacao = document.createElement('div')
+            notificacao.className = `notificacao ${tipo}`
+            notificacao.innerHTML = mensagem
+            document.body.appendChild(notificacao)
+            
+            setTimeout(() => {
+                notificacao.classList.add('fade-out')
+                setTimeout(() => notificacao.remove(), 500)
+            }, 3000)
+        }
+    </script>
+</body>
+</html>
